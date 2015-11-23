@@ -2,6 +2,7 @@ package quiz.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class Quiz {
 	
 
 	
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.PERSIST)
     @JoinTable(name="QUIZ_QUESTION",
     joinColumns= @JoinColumn(name="QUIZ_ID"),
     inverseJoinColumns = @JoinColumn(name="QUESTION_ID"))

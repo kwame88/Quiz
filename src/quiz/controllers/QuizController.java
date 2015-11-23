@@ -1,5 +1,6 @@
 package quiz.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +54,7 @@ public class QuizController {
 
 			}
 		}
+		Quiz q= (Quiz) req.getSession().getAttribute("quiz");
 
 		double percentCorrect = ( (double) correctanswers / questions.size() )* 100;
 		ModelAndView mv = new ModelAndView();
@@ -60,7 +62,53 @@ public class QuizController {
 		mv.addObject("correctAnswers", correctanswers);
 		mv.addObject("percent", percentCorrect);
 		mv.addObject("numOfQuestions", questions.size() );
+		mv.addObject("quiz", q);
+	
 		return mv;
 	}
 
+	@RequestMapping(value="editQuiz.do", method = RequestMethod.GET)
+	public ModelAndView editquiz(HttpServletRequest req) {
+		req.getSession().setAttribute("question", quizDao.getQuiz(1));
+		
+		return new ModelAndView("addquestions.jsp");
+	}
+	
+	@RequestMapping(value="addQuiz.do", method = RequestMethod.POST)
+	public ModelAndView addquestion(HttpServletRequest req, AddQuestion question) {
+		
+		Question newQuestion = new Question();
+		newQuestion.setText(question.getQuestion());
+		List<Answer>newanswers = new ArrayList<Answer>();
+		Answer a1 = new Answer();
+		Answer a2 = new Answer();
+		Answer a3 = new Answer();
+		Answer a4 = new Answer();
+		
+		a1.setText(question.getAnswer1());
+		a2.setText(question.getAnswer2());
+		a3.setText(question.getAnswer3());
+		a4.setText(question.getAnswer4());
+		newanswers.add(a1);
+		newanswers.add(a2);
+		newanswers.add(a3);
+		newanswers.add(a4);
+		a1.setIsCorrect(question.getResponse1());
+		a2.setIsCorrect(question.getResponse2());
+		a3.setIsCorrect(question.getResponse3());
+		a4.setIsCorrect(question.getResponse4());
+		
+		a1.setQuestion(newQuestion);
+		a2.setQuestion(newQuestion);
+		a3.setQuestion(newQuestion);
+		a4.setQuestion(newQuestion);
+		
+		newQuestion.setAnswers(newanswers);
+		Quiz quiz = quizDao.getQuiz(1);
+		newQuestion.addQuiz(quiz);
+		//quizDao.addQuestion(newQuestion);
+		quizDao.saveQuiz(quiz);
+		
+		return new ModelAndView("addquestions.jsp", "newQuestion", newQuestion);
+	}
 }

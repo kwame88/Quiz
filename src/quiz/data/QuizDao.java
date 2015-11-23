@@ -22,14 +22,13 @@ public class QuizDao {
 		return q;
 	}
 	
-//	public Answer checkAnswer(int id){
-//		Answer ans= em.find(Answer.class, id);
-//		return ans;
-//	}
-//	
-
 	
-	
+	public void saveQuiz (Quiz quiz){
+		if (! em.contains(quiz)) {
+			System.out.println("Quiz not managed, merging it now.");
+			quiz = em.merge(quiz);
+		}
+	}
 }
 
 

@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Begin Quiz</title>
 </head>
-<body>
+<body background="http://www.yourchildlearns.com/images/map-of-united-states.gif">
 	<h1>${quiz.name}</h1>
 	<form action="checkAnswer.do" method="POST">
 		<c:forEach var="question" items="${quiz.questions}">

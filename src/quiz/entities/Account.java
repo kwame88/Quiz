@@ -28,8 +28,6 @@ public class Account {
 	@OneToMany(mappedBy="account")
 	private List<QuizSubmission> quizsubmissions;
 	
-
-
 	public String getUsername() {
 		return username;
 	}
@@ -69,14 +67,6 @@ public class Account {
 	public void setQuizsubmissions(List<QuizSubmission> quizsubmissions) {
 		this.quizsubmissions = quizsubmissions;
 	}
-
-//	public List<Response> getResponses() {
-//		return responses;
-//	}
-//
-//	public void setResponses(List<Response> responses) {
-//		this.responses = responses;
-//	}
 
 	public int getId() {
 		return id;

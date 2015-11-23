@@ -1,7 +1,9 @@
 package quiz.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,23 +19,36 @@ public class Question {
 	private int id;
 	
 	
-	public int getId() {
-		return id;
-	}
 	
 	private String text;
 	
 	@ManyToMany(mappedBy="questions")
 	private List<Quiz> quizzes;
 	
-	@OneToMany(mappedBy="question")
+	@OneToMany(mappedBy="question", cascade = CascadeType.PERSIST)
 	private List<Answer> answers;
 	
+	public void addQuiz(Quiz quiz) {
+		
+		
+		if (quizzes ==null) {
+			quizzes= new ArrayList<>();
+			
+		}
+		quizzes.add(quiz);
+		if (!quiz.getQuestions().contains (this)) {
+			quiz.getQuestions().add(this);
+		}
+		
+	}
 	
 	public String getText() {
 		return text;
 	}
-	
+
+	public int getId() {
+		return id;
+	}
 
 	public List<Quiz> getQuizzes() {
 		return quizzes;
@@ -53,5 +68,10 @@ public class Question {
 
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
+	}
+
+	@Override
+	public String toString() {
+		return "Question [id=" + id + ", text=" + text + ", quizzes=" + quizzes + ", answers=" + answers + "]";
 	}
 }
